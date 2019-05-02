@@ -1,6 +1,7 @@
 import datetime as dt
 from django.utils.timezone import utc
 import Asker
+from datetime import datetime
 import Data
 # put in the tasks that need to be done
 # input: subject, deadline
@@ -18,30 +19,28 @@ thistask = {
 print thistask.items()
 
 
-time = 1
 recommendation = "tomorrow"
-deadline = 24
+
+
 starting_now = dt.datetime.utcnow().replace(tzinfo=utc)
-ending_deadline = dt.datetime.utcnow().replace(tzinfo=utc)
-duration = ending_deadline - starting_now
+startDate = starting_now.date()
+startTime = starting_now.time()
 
 
-def timedelta(duration):
-    days, seconds = duration.days, duration.seconds
-    hours = days * 24 + seconds // 3600
-    minutes = (seconds % 3600) // 60
-    seconds = (seconds % 60)
-    return hours, minutes, seconds
+def time_left():
+    dDate = raw_input("When is the deadline (YYYY, MM, DD)? ")
+    dTime = raw_input("When is the deadline (hours, minutes, seconds)? ")
+    timeLeft = datetime.combine(dDate, dTime) - datetime.combine(startDate, startTime)
+    # time = datetime.combine(deadlineDate, deadlineTime) - datetime.combine(startDate, startTime)
+    print "time left: ", time_left
+    return timeLeft
 
-
-td = dt.timedelta(2, 7743, 12345)
-hours, minutes, seconds = timedelta(td)
-print '{} minutes, {} hours'.format(minutes, hours)
+# NotSure.py
 
 
 # send notification here
 def ask(task):
-    if dateTime == 12:
+    if dateTime == 11:
         done_yet(task)
 
 
@@ -56,7 +55,7 @@ def done_yet(task_is_done):
                 print thistask
                 break
             elif isDone == "no":
-                print "You still have", '{} minutes, {} hours'.format(minutes, hours), \
+                print "You still have", '{} minutes, {} hours'.format(time_left().days, time_left().seconds), \
                     "left to do it. I recommend doing it by", recommendation
                 break
             else:
@@ -79,6 +78,7 @@ def add_task(task, add):
             elif x == "1":
                 changing_urgency(task)
         else:
+            time = time_left()
             thistask.update({task: value})
             print thistask
     else:
