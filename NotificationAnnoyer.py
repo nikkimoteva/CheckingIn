@@ -1,12 +1,13 @@
-import datetime as dt
-from django.utils.timezone import utc
+import pytz
+from tzlocal import get_localzone
+import datetime
 import Asker
-from datetime import datetime
-import Data
+from datetime import datetime as dt
+
 # put in the tasks that need to be done
 # input: subject, deadline
 
-dateTime = dt.datetime.now().hour
+dateTime = datetime.datetime.now().hour
 print dateTime
 
 # tasks
@@ -22,17 +23,22 @@ print thistask.items()
 recommendation = "tomorrow"
 
 
-starting_now = dt.datetime.utcnow().replace(tzinfo=utc)
-startDate = starting_now.date()
-startTime = starting_now.time()
+def deadline(dDates):
+    year, month, day = map(int, dDates.split("-"))
+    dDate = datetime.date(year, month, day)
+    return dDate
 
-
-def time_left():
-    dDate = raw_input("When is the deadline (YYYY, MM, DD)? ")
-    dTime = raw_input("When is the deadline (hours, minutes, seconds)? ")
-    timeLeft = datetime.combine(dDate, dTime) - datetime.combine(startDate, startTime)
-    # time = datetime.combine(deadlineDate, deadlineTime) - datetime.combine(startDate, startTime)
-    print "time left: ", time_left
+def time_left(dDates):
+    starting = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    starting_now = starting.astimezone(get_localzone())
+    startDate = starting_now.date()
+    startTime = starting_now.time()
+    dTimes = raw_input("What time is the deadline (hours-minutes-seconds)? ")
+    hours, minutes, seconds = map(int, dTimes.split("-"))
+    dTime = datetime.time(hours, minutes, seconds)
+    date = deadline(dDates)
+    timeLeft = dt.combine(date, dTime) - dt.combine(startDate, startTime).replace(microsecond=0)
+    print "time left: ", timeLeft
     return timeLeft
 
 # NotSure.py
@@ -40,7 +46,7 @@ def time_left():
 
 # send notification here
 def ask(task):
-    if dateTime == 11:
+    if dateTime == 12:
         done_yet(task)
 
 
@@ -78,7 +84,8 @@ def add_task(task, add):
             elif x == "1":
                 changing_urgency(task)
         else:
-            time = time_left()
+            dDates = raw_input("When is the deadline (YYYY-MM-DD)? ")
+            time_left(dDates)
             thistask.update({task: value})
             print thistask
     else:

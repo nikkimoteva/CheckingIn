@@ -17,7 +17,7 @@ def initial_data():
 
 
 def write_task(task):
-    # need to append here instead of over writing
+    # need to append here instead of over-writing
     shelf = shelve.open('TODO', 'c')
     temp = shelf["tasks"]
     temp.update(task)
