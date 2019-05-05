@@ -3,6 +3,7 @@ from tzlocal import get_localzone
 import datetime
 import Asker
 from datetime import datetime as dt
+import TaskLL
 
 # put in the tasks that need to be done
 # input: subject, deadline
@@ -28,6 +29,7 @@ def deadline(dDates):
     dDate = datetime.date(year, month, day)
     return dDate
 
+
 def time_left(dDates):
     starting = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
     starting_now = starting.astimezone(get_localzone())
@@ -46,7 +48,7 @@ def time_left(dDates):
 
 # send notification here
 def ask(task):
-    if dateTime == 12:
+    if dateTime == 10:
         done_yet(task)
 
 
@@ -57,10 +59,12 @@ def done_yet(task_is_done):
             isDone = raw_input("have you finished the task(yes/no)? ")
             if isDone == "yes":
                 print ("well done! you can now stop thinking about it")
+                # delete from linked list
                 thistask.pop(task_is_done)
                 print thistask
                 break
             elif isDone == "no":
+                # get the deadline data, compute it without asking the user to enter it again, return
                 print "You still have", '{} minutes, {} hours'.format(time_left().days, time_left().seconds), \
                     "left to do it. I recommend doing it by", recommendation
                 break
@@ -86,7 +90,7 @@ def add_task(task, add):
         else:
             dDates = raw_input("When is the deadline (YYYY-MM-DD)? ")
             time_left(dDates)
-            thistask.update({task: value})
+            thistask.update({value: (task, dDates)})
             print thistask
     else:
         print "Okay! I won't add it to your list then."
