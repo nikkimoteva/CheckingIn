@@ -83,6 +83,7 @@ class DoublyLinkedList:
         return self.deleting(self._trailer._prev)
 
 
+#Test to see if linked list works
 def main():
     d = DoublyLinkedList()
     d.insert_first(1)
