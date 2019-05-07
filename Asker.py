@@ -5,7 +5,7 @@ def main():
     task = raw_input("please enter the name of a task: ")
     NotificationAnnoyer.ask(task)
     NotificationAnnoyer.another_task()
-    print "ahhhh", task
+    print "tasks manipulated: ", task
 
 if __name__ == '__main__':
     main()
