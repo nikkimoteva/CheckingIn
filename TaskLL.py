@@ -92,12 +92,6 @@ def main():
     d.insert_last(3)
     print d.__str__()
 
-    temp = DoublyLinkedList()
-    temp.insert_first(0)
-    for i in range(1, 14):
-        temp.insert_last(i)
-    temp.insert_last(14)
-    print temp.__str__()
 
 
 if __name__ == "__main__":

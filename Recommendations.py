@@ -5,7 +5,6 @@ import re
 
 def main2(d, s):
     temp = TaskLL.DoublyLinkedList()
-
     # Number of days left
     temp.insert_first("less than 1 day")
     if d >= 1:
@@ -20,7 +19,7 @@ def main2(d, s):
     print q
 
     # If the task is important (HIGH LEVEL) and there are few days left
-    if d <= 1:
+    if d <= 2:
         recommendation(1, d)
     elif d <= 5 and q <= 5:
         recommendation(2, d)
@@ -30,27 +29,29 @@ def main2(d, s):
         recommendation(4, d)
 
 
+#
 def recommendation(d, day):
     switcher = {
-        1: "URGENT!!! you have "+ str(day) + " day left!!! This is an important task that needs to be done as soon as possible",
-        2: "Kinda urgent! you have "+ str(d) + " days left, but since this is a high level task, I recommend doing it"
+        1: "URGENT!!! you have "+ str(day) + " day left!!! This is an important task that needs"
+                                             " to be done as soon as possible",
+        2: "Kinda urgent! you have "+ str(day) + " days left, but since this is a high level task, I recommend doing it"
                                                "in the next few days",
-        3: "you have " + str(d) +" days left. It's not very urgent now, " \
-                                "but I think it's better to do it by   to avoid high stress levels",
-        4: "you have " + str(d) + " days left. You can still manage to procrastinate based on the level of the task," \
-                                 " I would recommend for you to work on tasks with higher urgency"
+        3: "you have " + str(day) + " days left. It's not very urgent now, "
+                                   "but I think it's better to do it in the next "+ str(time(day))
+           + " days to avoid unnecessary high stress levels",
+        4: "you have " + str(day) + " days left. You can still manage to procrastinate based on the level of the task," \
+                                 " I would recommend for you to work on tasks with higher urgency, such as: " + todo()
     }
     print switcher.get(d, "invalid")
 
 
+def time(day):
+    return -1
 
-def recommend_middle(d):
-    print
 
-def recommend_chill(d):
-    print
-
+def todo():
+    return "place-holder"
 
 
 if __name__ == "__main__":
-    main2(0, "task 22")
+    main2(3, "task 2")
