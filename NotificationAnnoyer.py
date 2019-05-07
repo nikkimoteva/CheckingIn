@@ -29,18 +29,21 @@ def deadline(dDates):
     dDate = datetime.date(year, month, day)
     return dDate
 
+def deadtime(dTimes):
+    hours, minutes, seconds = map(int, dTimes.split("-"))
+    dTime = datetime.time(hours, minutes, seconds)
+    return dTime
 
-def time_left(dDates):
+
+def time_left(dDates, dTimes):
     starting = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
     starting_now = starting.astimezone(get_localzone())
     startDate = starting_now.date()
     startTime = starting_now.time()
-    dTimes = raw_input("What time is the deadline (hours-minutes-seconds)? ")
-    hours, minutes, seconds = map(int, dTimes.split("-"))
-    dTime = datetime.time(hours, minutes, seconds)
+
+    time = deadtime(dTimes)
     date = deadline(dDates)
-    timeLeft = dt.combine(date, dTime) - dt.combine(startDate, startTime).replace(microsecond=0)
-    print "time left: ", timeLeft
+    timeLeft = dt.combine(date, time) - dt.combine(startDate, startTime).replace(microsecond=0)
     return timeLeft
 
 # NotSure.py
@@ -48,7 +51,7 @@ def time_left(dDates):
 
 # send notification here
 def ask(task):
-    if dateTime == 10:
+    if dateTime == 13:
         done_yet(task)
 
 
@@ -64,9 +67,11 @@ def done_yet(task_is_done):
                 print thistask
                 break
             elif isDone == "no":
+                q = time_left("2019-09-09", "10-10-10")
+                hours = q.seconds / 3600
                 # get the deadline data, compute it without asking the user to enter it again, return
-                print "You still have", '{} minutes, {} hours'.format(time_left().days, time_left().seconds), \
-                    "left to do it. I recommend doing it by", recommendation
+                print "You still have", '{} days, {} hours'.format(q.days,
+                    hours), "left to do it. I recommend doing it by", recommendation
                 break
             else:
                 print "please enter either yes or no"
@@ -89,7 +94,9 @@ def add_task(task, add):
                 changing_urgency(task)
         else:
             dDates = raw_input("When is the deadline (YYYY-MM-DD)? ")
-            time_left(dDates)
+            dTimes = raw_input("What time is the deadline (hours-minutes-seconds)? ")
+            time = time_left(dDates, dTimes)
+            print "time left: ", time
             thistask.update({value: (task, dDates)})
             print thistask
     else:
@@ -112,12 +119,10 @@ def changing_urgency(task):
             if val == value:
                 x = key
                 thistask.pop(key)
-                print x
                 break
             else:
                 continue
         thistask.update({x: new})
-        print thistask
         add_task(task, "yes")
 
 

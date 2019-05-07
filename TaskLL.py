@@ -1,3 +1,4 @@
+import Recommendations
 class DoublyLinkedList:
     class Node(object):
         __slots__ = "_element", "_prev", "_next"
@@ -87,10 +88,16 @@ class DoublyLinkedList:
 def main():
     d = DoublyLinkedList()
     d.insert_first(1)
-    print d.__str__()
     d.insert_last(2)
     d.insert_last(3)
     print d.__str__()
+
+    temp = DoublyLinkedList()
+    temp.insert_first(0)
+    for i in range(1, 14):
+        temp.insert_last(i)
+    temp.insert_last(14)
+    print temp.__str__()
 
 
 if __name__ == "__main__":
