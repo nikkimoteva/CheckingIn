@@ -9,7 +9,7 @@ def main2(d, s):
         1: "URGENT!!! you have " + str(d) + " day left!!! This is an important task that needs"
                                               " to be done as soon as possible",
         2: "Kinda urgent! you have " + str(
-            d) + " days left, but since this is a high level task, I recommend doing it"
+            d) + " days left, but since this is a high level task, I recommend doing it "
                    "in the next few days",
         3: "you have " + str(d) + " days left. It's not very urgent now, "
                                     "but I think it's better to do it in the next " + str(time(d))
@@ -28,17 +28,17 @@ def main2(d, s):
 
     # If the task is important (HIGH LEVEL) and there are few days left
     if d == 0:
-        print switcher[0]
+        return switcher[0]
     elif d <= 2:
-        print switcher[1]
+        return switcher[1]
     elif d <= 5 and q <= 5:
-        print switcher[2]
+        return switcher[2]
     elif d <= 5:
-        print switcher[3]
+        return switcher[3]
     elif d > 5:
-        print switcher[4]
+        return switcher[4]
     else:
-        print switcher[5]
+        return switcher[5]
 
 
 
@@ -48,7 +48,3 @@ def time(day):
 
 def todo():
     return "place-holder"
-
-
-if __name__ == "__main__":
-    print main2(3, "task 2")
