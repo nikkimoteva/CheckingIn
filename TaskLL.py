@@ -47,13 +47,13 @@ class DoublyLinkedList:
     def __str__(self):
         if self._size == 0:
             return '[]'
-        start = "["
+        start = ""
         current_e = self._header.get_next()
         for i in range(self._size):
             start += str(current_e) + ", "
             current_e = current_e.get_next()
 
-        return start[:-2] + ']'
+        return start[:-2]
 
     # Modifying list
 
