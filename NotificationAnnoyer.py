@@ -66,7 +66,8 @@ tasks_dict = {
                                                                 "task99")
                         }
               }
-print tasks_dict
+for key, val in tasks_dict.items():
+    print tasks_dict[key]
 #print tasks_dict["task1"]["Recommendation"]
 #print "here"
 
@@ -76,7 +77,7 @@ print tasks_dict
 
 # send alert here
 def ask(task_title):
-    if dateTime == 21:
+    if dateTime == 22:
         key_task(task_title)
 
 
@@ -124,9 +125,9 @@ def add_task(task_title, add):
                   "consider changing your urgency levels."
 
             while 1:
-                x = raw_input("Please enter an option: "
-                              "1. Change the urgency   "
-                              "2. Enter a new urgency ")
+                x = raw_input("Please enter an option: \n"
+                              "1. Change " + task_key+"'s urgency \n"
+                              "2. Enter a new urgency \n")
                 if x == "2":
                     add_task(task_title, "yes")
                     break
@@ -154,34 +155,34 @@ def add_task(task_title, add):
                                         "time left": timeLeft,
                                         "Recommendation": recommend},
                                })
-            print tasks_dict
+            for key, val in tasks_dict.items():
+                print tasks_dict[key]
     else:
         print "Okay! I won't add it to your list then."
-        print tasks_dict.keys()
+        for key, val in tasks_dict.items():
+            print tasks_dict[key]
 
 
 # changing the values in the dictionary
 def changing_urgency(task, level):
-    x = [0] * 1000
-    for i in range(0, len(x)-1):
-        for key in tasks_dict.keys():
-            q = re.findall("\d*", key)
-            q = int("".join(q))
-            x[i] = q
-    print x
+    x = []
+    for key in tasks_dict.keys():
+        q = re.findall("\d*", key)
+        q = int("".join(q))
+        x.append(q)
     print "levels in use: " + str(x)
 
-    new = "task" + raw_input("to which level would you like to change it to? ")
+    lvl = raw_input("to which level would you like to change it to? ")
+    new = "task"+str(lvl)
     if new in tasks_dict.keys():
-        print "please enter a new level, this one is currently in use"
-        changing_urgency(task)
+        print "please enter a new level, " + str(new) + " is currently in use"
+        changing_urgency(task, level)
 
     # changing the level
     else:
         for key, value in tasks_dict.items():
-            print level
             title = tasks_dict[key]["title"]
-            if level == title:
+            if key == level:
                 x = value
                 tasks_dict.pop(key)
                 break
