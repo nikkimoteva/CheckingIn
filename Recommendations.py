@@ -32,18 +32,19 @@ def give_recommend(d, s):
     q = int("".join(q))
 
     # If the task is important (HIGH LEVEL) and there are few days left
-    if d == 0:
-        return switch(0, d)
-    elif d <= 2:
-        return switch(1, d)
-    elif d <= 5 and q <= 5:
-        return switch(2, d)
-    elif d <= 5:
-        return switch(3, d)
-    elif d > 5:
-        return switch(4, d)
-    else:
-        return switch(5, d)
+    if d >= 0:
+        if d == 0:
+            return switch(0, d)
+        elif d <= 2:
+            return switch(1, d)
+        elif d <= 5 and q <= 5:
+            return switch(2, d)
+        elif d <= 5:
+            return switch(3, d)
+        elif d > 5:
+            return switch(4, d)
+        else:
+            return switch(5, d)
 
 
 
