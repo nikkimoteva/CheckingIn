@@ -14,6 +14,8 @@ print dateTime
 
 #NotSure.py #3
 
+#print Recommendations.give_recommend(10, "task3")
+
 # tasks
 # To access element of a nested dictionary, we use indexing [] syntax in Python
 
@@ -47,10 +49,10 @@ def dead(d, t):
 tasks_dict = {"task1": {"title": "take a shower",
                         "deadline": "2019-05-10",
                         "deadtime": "23-59-59",
-                        "start date": "2019-05-04",
+                        "start date": "2019-05-05",
                         "start time": "14-57-09",
                         "time left": time_left("2019-05-10", "23-59-59"),
-                        "Recommendation": Recommendations.give_recommend(dead("2019-05-09", "23-59-59"),
+                        "Recommendation": Recommendations.give_recommend(dead("2019-05-10", "23-59-59"),
                                                                 "task1")
                         },
               "task2": {"title": "cry",
@@ -63,7 +65,7 @@ tasks_dict = {"task1": {"title": "take a shower",
                                                                 "task99")
                         }
               }
-#print tasks_dict
+print tasks_dict
 #print tasks_dict["task1"]["Recommendation"]
 #print "here"
 
@@ -73,7 +75,7 @@ tasks_dict = {"task1": {"title": "take a shower",
 
 # send alert here
 def ask(task_title):
-    if dateTime == 17:
+    if dateTime == 21:
         key_task(task_title)
 
 
@@ -102,7 +104,7 @@ def done_yet(task_id, task_title):
                 hours = q.seconds / 3600
                 # get the deadline data, compute it without asking the user to enter it again, return
                 print "You still have", '{} days, {} hours'.format(q.days,
-                    hours), "left to do it. I recommend doing it by", tasks_dict[task_id]["Recommendation"]
+                    hours), "left to do it.", tasks_dict[task_id]["Recommendation"]
                 break
             else:
                 print "please enter either yes or no"
