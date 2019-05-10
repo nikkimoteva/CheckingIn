@@ -46,7 +46,8 @@ def dead(d, t):
     return time_left(d, t).days
 
 
-tasks_dict = {"task1": {"title": "take a shower",
+tasks_dict = {
+              "task1": {"title": "shower",
                         "deadline": "2019-05-10",
                         "deadtime": "23-59-59",
                         "start date": "2019-05-05",
@@ -61,7 +62,7 @@ tasks_dict = {"task1": {"title": "take a shower",
                         "start date": "2019-05-04",
                         "start time": "15-45-57",
                         "time left": time_left("2020-05-10", "23-59-59"),
-                        "Recommendation": Recommendations.give_recommend(dead("2020-05-14", "23-59-59"),
+                        "Recommendation": Recommendations.give_recommend(dead("2020-05-10", "23-59-59"),
                                                                 "task99")
                         }
               }
@@ -83,6 +84,7 @@ def key_task(task_title):
     for t_id, t_val in tasks_dict.items():
         if tasks_dict[t_id]["title"] == task_title:
             task_id = t_id
+            break
         else:
             task_id = ""
     done_yet(task_id, task_title)
