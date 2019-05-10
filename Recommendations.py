@@ -3,7 +3,7 @@ import TaskLL
 import re
 
 
-def main2(d, s):
+def give_recommend(d, s):
     switcher = {
         0: "ALERT! THE DEADLINE IS TODAY. YOU WILL MISS THE DEADLINE IF YOU DON'T FINISH THE TASK TODAY!",
         1: "URGENT!!! you have " + str(d) + " day left!!! This is an important task that needs"
@@ -12,10 +12,10 @@ def main2(d, s):
             d) + " days left, but since this is a high level task, I recommend doing it "
                    "in the next few days",
         3: "you have " + str(d) + " days left. It's not very urgent now, "
-                                    "but I think it's better to do it in the next " + str(time(d))
+                                    "but I think it's better to do it in the next "\
            + " days to avoid unnecessary high stress levels",
         4: "you have " + str(d) + " days left. You can still manage to procrastinate based on the level of the task," \
-                                    " I would recommend for you to work on tasks with higher urgency, such as: " + todo(),
+                                    " I would recommend for you to work on tasks with higher urgency, such as: ",
         5: "you have missed the deadline"
     }
     print switcher.get(d, "invalid")
@@ -24,27 +24,26 @@ def main2(d, s):
     # parsing the urgency of a task
     q = re.findall("\d*", s)
     q = int("".join(q))
-    print q
 
     # If the task is important (HIGH LEVEL) and there are few days left
     if d == 0:
-        return switcher[0]
+        print switcher[0]
     elif d <= 2:
-        return switcher[1]
+        print switcher[1]
     elif d <= 5 and q <= 5:
-        return switcher[2]
+        print switcher[2]
     elif d <= 5:
-        return switcher[3]
+        print switcher[3]
     elif d > 5:
-        return switcher[4]
+        print switcher[4]
     else:
-        return switcher[5]
+        print switcher[5]
 
 
 
 def time(day):
-    return "number place-holder"
+    print "number place-holder"
 
 
 def todo():
-    return "place-holder"
+    print "place-holder"

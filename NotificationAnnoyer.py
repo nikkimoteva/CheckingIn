@@ -3,7 +3,8 @@ from tzlocal import get_localzone
 import datetime
 import Asker
 from datetime import datetime as dt
-import TaskLL
+import Recommendations
+import re
 
 # put in the tasks that need to be done
 # input: subject, deadline
@@ -11,18 +12,10 @@ import TaskLL
 dateTime = datetime.datetime.now().hour
 print dateTime
 
+#NotSure.py #3
+
 # tasks
-thistask = {
-    "take a bath" : "task1",
-    "shower" : "task2",
-    "study" : "task3",
-    "cry" : "task4"
-    }
-print thistask.items()
-
-
-recommendation = "tomorrow"
-
+# To access element of a nested dictionary, we use indexing [] syntax in Python
 
 def deadline(dDates):
     year, month, day = map(int, dDates.split("-"))
@@ -46,83 +39,149 @@ def time_left(dDates, dTimes):
     timeLeft = dt.combine(date, time) - dt.combine(startDate, startTime).replace(microsecond=0)
     return timeLeft
 
+
+def dead(d, t):
+    return time_left(d, t).days
+
+
+tasks_dict = {"task1": {"title": "take a shower",
+                        "deadline": "2019-05-10",
+                        "deadtime": "23-59-59",
+                        "start date": "2019-05-04",
+                        "start time": "14-57-09",
+                        "time left": time_left("2019-05-10", "23-59-59"),
+                        "Recommendation": Recommendations.give_recommend(dead("2019-05-09", "23-59-59"),
+                                                                "task1")
+                        },
+              "task2": {"title": "cry",
+                        "deadline": "2020-05-10",
+                        "deadtime": "23-59-59",
+                        "start date": "2019-05-04",
+                        "start time": "15-45-57",
+                        "time left": time_left("2020-05-10", "23-59-59"),
+                        "Recommendation": Recommendations.give_recommend(dead("2020-05-14", "23-59-59"),
+                                                                "task99")
+                        }
+              }
+#print tasks_dict
+#print tasks_dict["task1"]["Recommendation"]
+#print "here"
+
+
 # NotSure.py
 
 
-# send notification here
-def ask(task):
-    if dateTime == 13:
-        done_yet(task)
+# send alert here
+def ask(task_title):
+    if dateTime == 17:
+        key_task(task_title)
+
+
+def key_task(task_title):
+    for t_id, t_val in tasks_dict.items():
+        if tasks_dict[t_id]["title"] == task_title:
+            task_id = t_id
+        else:
+            task_id = ""
+    done_yet(task_id, task_title)
 
 
 # check if it's done
-def done_yet(task_is_done):
-    if task_is_done in thistask.keys():
+def done_yet(task_id, task_title):
+    if task_id != "":
         while 1:
             isDone = raw_input("have you finished the task(yes/no)? ")
             if isDone == "yes":
                 print ("well done! you can now stop thinking about it")
-                # delete from linked list
-                thistask.pop(task_is_done)
-                print thistask
+                # delete from dict
+                tasks_dict.pop(task_id)
+                print tasks_dict
                 break
             elif isDone == "no":
-                q = time_left("2019-09-09", "10-10-10")
+                q = tasks_dict[task_id]["time left"]
                 hours = q.seconds / 3600
                 # get the deadline data, compute it without asking the user to enter it again, return
                 print "You still have", '{} days, {} hours'.format(q.days,
-                    hours), "left to do it. I recommend doing it by", recommendation
+                    hours), "left to do it. I recommend doing it by", tasks_dict[task_id]["Recommendation"]
                 break
             else:
                 print "please enter either yes or no"
     else:
         print "This task is not in the list. Please add it to the list first"
-        add = raw_input("Do you want to add " + task_is_done + " to the todo list? ")
-        add_task(task_is_done, add)
+        add = raw_input("Do you want to add " + task_title + " to the todo list? ")
+        add_task(task_title, add)
 
 
-def add_task(task, add):
+def add_task(task_title, add):
     if add == "yes":
-        value = "task" + raw_input("What level of urgency is " + task + "? ")
-        if value in thistask.values():
+        task_key = "task" + raw_input("What level of urgency is " + task_title + "? ")
+        if task_key in tasks_dict.keys():
             print "You already have a task in this level. Please enter a new level of urgency, or " \
                   "consider changing your urgency levels."
-            x = raw_input("Please enter an option: 1. Change the urgency   2. Enter a new urgency ")
-            if x == "2":
-                add_task(task, "yes")
-            elif x == "1":
-                changing_urgency(task)
+
+            while 1:
+                x = raw_input("Please enter an option: "
+                              "1. Change the urgency   "
+                              "2. Enter a new urgency ")
+                if x == "2":
+                    add_task(task_title, "yes")
+                    break
+                elif x == "1":
+                    changing_urgency(task_title, task_key)
+                    break
+                else:
+                    print "please enter either 1 or 2"
         else:
-            dDates = raw_input("When is the deadline (YYYY-MM-DD)? ")
-            dTimes = raw_input("What time is the deadline (hours-minutes-seconds)? ")
-            time = time_left(dDates, dTimes)
-            print "time left: ", time
-            thistask.update({value: (task, dDates)})
-            print thistask
+            # Add a new dictionary to tasks_dict
+            starting = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+            title = task_title
+            deadline = raw_input("When is the deadline (YYYY-MM-DD)? ")
+            deadtime = raw_input("What time is the deadline (hours-minutes-seconds)? ")
+            startdate = starting.astimezone(get_localzone()).date()
+            starttime = starting.astimezone(get_localzone()).time()
+            timeLeft = time_left(deadline, deadtime)
+            recommend = Recommendations.give_recommend(dead(deadline, deadtime),
+                                                       task_key)
+            tasks_dict.update({task_key: {"title": title,
+                                        "deadline": deadline,
+                                        "deadtime": deadtime,
+                                        "start date": startdate,
+                                        "start time": starttime,
+                                        "time left": timeLeft,
+                                        "Recommendation": recommend},
+                               })
+            print tasks_dict
     else:
         print "Okay! I won't add it to your list then."
-        print thistask
+        print tasks_dict.keys()
 
 
 # changing the values in the dictionary
-def changing_urgency(task):
-    val = "task" + raw_input("which urgency level do you want to change?")
-    print "levels in use: "
-    print thistask.values()
-    new = "task" + raw_input("to which level would you like to change it to?")
-    if new in thistask.values():
+def changing_urgency(task, level):
+    x = [0] * 1000
+    for i in range(0, len(x)-1):
+        for key in tasks_dict.keys():
+            q = re.findall("\d*", key)
+            q = int("".join(q))
+            x[i] = q
+    print x
+    print "levels in use: " + str(x)
+
+    new = "task" + raw_input("to which level would you like to change it to? ")
+    if new in tasks_dict.keys():
         print "please enter a new level, this one is currently in use"
         changing_urgency(task)
+
+    # changing the level
     else:
-        for key, value in thistask.items():
-            print val
-            if val == value:
-                x = key
-                thistask.pop(key)
+        for key, value in tasks_dict.items():
+            print level
+            title = tasks_dict[key]["title"]
+            if level == title:
+                x = value
+                tasks_dict.pop(key)
                 break
-            else:
-                continue
-        thistask.update({x: new})
+        tasks_dict.update({new: x})
         add_task(task, "yes")
 
 
