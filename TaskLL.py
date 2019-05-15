@@ -1,97 +1,91 @@
-import Recommendations
+import gc
+
+
+class Node(object):
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
+
+
 class DoublyLinkedList:
-    class Node(object):
-        __slots__ = "_element", "_prev", "_next"
-
-        def __init__(self, element, prev, next):
-            self._element = element
-            self._prev = prev
-            self._next = next
-
-        def get_next(self):
-            return self._next
-
-        def __str__(self):
-            return str(self._element)
-
     def __init__(self):
-        self._header = self.Node(None, None, None)
-        self._trailer = self.Node(None, None, None)
-        self._header._next = self._trailer
-        self._trailer._prev = self._header
-        self._size = 0
+        self.head = None
 
-    def __len__(self):      # checks how many tasks are left to do
-        return self._size
+    def insert(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head
+        if self.head is not None:
+            self.head.prev = new_node
+        self.head = new_node
+        return new_node
 
-    def is_empty(self):     # check if all tasks are done and the list is empty
-        return self._size == 0
+    def insertAfter(self, prev_node, new_data):
+        if prev_node is None:
+            print "the given previous node cannot be NULL"
+            return
+        new_node = Node(new_data)
+        new_node.next = prev_node.next
+        prev_node.next = new_node
+        new_node.prev = prev_node
+        if new_node.next is not None:
+            new_node.next.prev = new_node
 
-    def inserting(self, element, predecessor, successor):
-        new = self.Node(element, predecessor, successor)
-        predecessor._next = new
-        successor._prev = new
-        self._size += 1
-        return new
+    def append(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = None
+        if self.head is None:
+            new_node.prev = None
+            self.head = new_node
+            return
+        last = self.head
+        while last.next is not None:
+            last = last.next
+        last.next = new_node
+        new_node.prev = last
+        return
 
-    def deleting(self, node):
-        predecessor = node._prev
-        successor = node._next
-        predecessor._next = successor
-        successor._prev = predecessor
-        self._size -= 1
-        element = node._element
-        node._prev = node._next = node._element = None
-        return element
+    def deleteNode(self, dele):
+        if self.head is None or dele is None:
+            return
+        # deleting the head node
+        if self.head == dele:
+            self.head = dele.next
+        # delete middle node
+        if dele.next is not None:
+            dele.next.prev = dele.prev
+        # delete node that's not head
+        if dele.prev is not None:
+            dele.prev.next = dele.next
+        gc.collect()
 
-    def __str__(self):
-        if self._size == 0:
-            return '[]'
-        start = ""
-        current_e = self._header.get_next()
-        for i in range(self._size):
-            start += str(current_e) + ", "
-            current_e = current_e.get_next()
-
-        return start[:-2]
-
-    # Modifying list
-
-    def first(self):
-        if self.is_empty():
-            raise Exception("Empty!")
-        return self._header._next._element
-
-    def last(self):
-        if self.is_empty():
-            raise Exception("Empty!")
-        return self._trailer._prev._element
-
-    def insert_first(self, e):
-        self.inserting(e, self._header, self._header._next)
-
-    def insert_last(self, e):
-        self.inserting(e, self._trailer._prev, self._trailer)
-
-    def delete_first(self):
-        if self.is_empty():
-            raise Exception("Empty!")
-        return self.deleting(self._header._next)
-
-    def delete_last(self):
-        if self.is_empty():
-            raise Exception("Empty!")
-        return self.deleting(self._trailer._prev)
+    def printList(self):
+        global last
+        last = Node(None)
+        n = self.head
+        print "\nTraversal in forward direction"
+        print "None"
+        while n is not None:
+            print n.data
+            last = n
+            n = n.next
+        print "\nTraversal in reverse direction"
+        while last is not None:
+            print last.data
+            last = last.prev
 
 
-#Test to see if linked list works
+# Test to see if linked list works
 def main():
     d = DoublyLinkedList()
-    d.insert_first(1)
-    d.insert_last(2)
-    d.insert_last(3)
-    print d.__str__()
-
+    p = Node(data="task3")
+    d.insert("task0")
+    d.insert("task1")
+    d.insert("task2")
+    d.insert("task3")
+    d.insert("task4")
+    d.insert("task9")
+    print d.printList()
 
 
 if __name__ == "__main__":
