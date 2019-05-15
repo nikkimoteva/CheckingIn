@@ -4,6 +4,8 @@ import datetime
 import Asker
 from datetime import datetime as dt
 import Recommendations
+import LLFeatures
+import TaskLL
 import re
 
 # put in the tasks that need to be done
@@ -19,10 +21,12 @@ print dateTime
 # tasks
 # To access element of a nested dictionary, we use indexing [] syntax in Python
 
+
 def deadline(dDates):
     year, month, day = map(int, dDates.split("-"))
     dDate = datetime.date(year, month, day)
     return dDate
+
 
 def deadtime(dTimes):
     hours, minutes, seconds = map(int, dTimes.split("-"))
@@ -39,7 +43,11 @@ def time_left(dDates, dTimes):
     time = deadtime(dTimes)
     date = deadline(dDates)
     timeLeft = dt.combine(date, time) - dt.combine(startDate, startTime).replace(microsecond=0)
-    return timeLeft
+    if timeLeft.days < 0 and timeLeft.seconds <= 0:
+        print "deadline has passed"
+        pass
+    else:
+        return timeLeft
 
 
 def dead(d, t):
@@ -47,16 +55,16 @@ def dead(d, t):
 
 
 tasks_dict = {
-              "task1": {"title": "shower",
+              "task1": {"title": "cancel Spotify premium",
                         "deadline": "2019-05-10",
-                        "deadtime": "23-59-59",
+                        "deadtime": "23-50-50",
                         "start date": "2019-05-05",
                         "start time": "14-57-09",
-                        "time left": time_left("2019-05-10", "23-59-59"),
-                        "Recommendation": Recommendations.give_recommend(dead("2019-05-10", "23-59-59"),
+                        "time left": time_left("2019-05-10", "23-50-50"),
+                        "Recommendation": Recommendations.give_recommend(dead("2019-05-10", "23-50-50"),
                                                                 "task1")
                         },
-              "task2": {"title": "cry",
+              "task2": {"title": "pay rent",
                         "deadline": "2020-05-10",
                         "deadtime": "23-59-59",
                         "start date": "2019-05-04",
@@ -66,18 +74,26 @@ tasks_dict = {
                                                                 "task99")
                         }
               }
-for key, val in tasks_dict.items():
-    print tasks_dict[key]
-#print tasks_dict["task1"]["Recommendation"]
-#print "here"
 
+LLFeatures.linked_list.insert("task1")
+LLFeatures.linked_list.append("task2")
+print LLFeatures.linked_list.print_list()
+
+
+def printing():
+    for key, val in tasks_dict.items():
+        print tasks_dict[key]
+
+printing()
+print tasks_dict["task1"]
+print tasks_dict["task1"]["time left"]
 
 # NotSure.py
 
 
 # send alert here
 def ask(task_title):
-    if dateTime == 22:
+    if dateTime == 12:
         key_task(task_title)
 
 
@@ -101,6 +117,10 @@ def done_yet(task_id, task_title):
                 # delete from dict
                 tasks_dict.pop(task_id)
                 print tasks_dict
+                # remove task from LLFeatures
+                #node = TaskLL.Node(data= task_id)
+                LLFeatures.linked_list.delete_node(task_id)
+                LLFeatures.linked_list.print_list()
                 break
             elif isDone == "no":
                 q = tasks_dict[task_id]["time left"]
@@ -155,12 +175,13 @@ def add_task(task_title, add):
                                         "time left": timeLeft,
                                         "Recommendation": recommend},
                                })
-            for key, val in tasks_dict.items():
-                print tasks_dict[key]
+            # add to LLFeature here
+            LLFeatures.linked_list.append(task_key)
+            print LLFeatures.linked_list.print_list()
+            printing()
     else:
         print "Okay! I won't add it to your list then."
-        for key, val in tasks_dict.items():
-            print tasks_dict[key]
+        printing()
 
 
 # changing the values in the dictionary
@@ -181,18 +202,26 @@ def changing_urgency(task, level):
     # changing the level
     else:
         for key, value in tasks_dict.items():
-            title = tasks_dict[key]["title"]
+            #title = tasks_dict[key]["title"]
             if key == level:
                 x = value
                 tasks_dict.pop(key)
                 break
         tasks_dict.update({new: x})
+        # Change the task name in LLFeatures here
+        LLFeatures.redata_node(level, new)
+        print LLFeatures.linked_list.print_list()
         add_task(task, "yes")
 
 
+def look_at_task():
+    ans = "task" + raw_input("please enter the number of the task you would like to take a look at: ")
+    LLFeatures.open_task(ans)
+
+
 def another_task():
-    y = raw_input("do you want to enter another task? ")
+    y = raw_input("do you want to enter another task?(yes/no) ")
     if y == "yes":
         Asker.main()
-    else:
+    elif y == "no":
         print "Okay. Well done on getting things accomplished today!"
