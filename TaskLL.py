@@ -12,6 +12,7 @@ class DoublyLinkedList:
     def __init__(self):
         self.head = None
 
+    # insert in front of the Llist
     def insert(self, new_data):
         new_node = Node(new_data)
         new_node.next = self.head
