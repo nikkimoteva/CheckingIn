@@ -21,7 +21,7 @@ class DoublyLinkedList:
         self.head = new_node
         return new_node
 
-    def insertAfter(self, prev_node, new_data):
+    def insert_after(self, prev_node, new_data):
         if prev_node is None:
             print "the given previous node cannot be NULL"
             return
@@ -46,7 +46,7 @@ class DoublyLinkedList:
         new_node.prev = last
         return
 
-    def deleteNode(self, dele):
+    def delete_node(self, dele):
         if self.head is None or dele is None:
             return
         # deleting the head node
@@ -60,7 +60,31 @@ class DoublyLinkedList:
             dele.prev.next = dele.next
         gc.collect()
 
-    def printList(self):
+    def __len__(self):
+        count = 0
+        temp = self.head
+        while temp is not None:
+            count += 1
+            temp = temp.next
+        return count
+
+    def print_k(self, k):
+        current = self.head
+        p = k
+        temp = current
+        while p > 0:
+            if temp is None:
+                return None
+            else:
+                temp = temp.next
+                p -= 1
+        while temp is not None:
+            temp = temp.next
+            current = current.next
+        return current.data
+
+
+    def print_list(self):
         global last
         last = Node(None)
         n = self.head
@@ -76,7 +100,7 @@ class DoublyLinkedList:
             last = last.prev
 
 
-# Test to see if linked list works
+# test to see if linked list works
 def main():
     d = DoublyLinkedList()
     p = Node(data="task3")
@@ -86,7 +110,9 @@ def main():
     d.insert("task3")
     d.insert("task4")
     d.insert("task9")
-    print d.printList()
+    print len(d)
+    print d.print_k(2)
+    print d.print_list()
 
 
 if __name__ == "__main__":
