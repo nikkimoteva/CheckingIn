@@ -1,6 +1,7 @@
 import TaskLL
 import NotificationAnnoyer
 import random as r
+import Asker
 
 linked_list = TaskLL.DoublyLinkedList()
 
@@ -41,18 +42,46 @@ def redata_node(old_data, new_data):
             return
         else:
             temp = temp.next
-    print "ERROR you shouldn't have reached here NotoficationAnnoyer must have stopped you before"
+    linked_list.order()
+    print "ERROR you shouldn't have reached here NotificationAnnoyer must have stopped you before"
 
 
 def open_task(data):
-    a = raw_input("would you like to see the content of this task?(yes/no) ")
-    if a == "yes":
-        print NotificationAnnoyer.tasks_dict[data]
-    elif a == "no":
-        print "Okay, moving on then"
+    node = linked_list.find_node(data)
+    if node == None:
+        print "please enter an existing task"
+        NotificationAnnoyer.look_at_task()
     else:
-        print "please enter either yes or no"
-        open_task(data)
+        a = raw_input("would you like to see the content of this task?(yes/no) ")
+        if a == "yes":
+            print NotificationAnnoyer.tasks_dict[data]
+        elif a == "no":
+            print "Okay, moving on then"
+        else:
+            print "please enter either yes or no"
+            open_task(data)
+
+def go_through():
+    temp = linked_list.head
+    while temp is not None:
+        print temp.data
+        go_through_helper(temp)
+        temp = temp.next
+    print "Those were all the tasks!"
+    Asker.main()
+
+
+def go_through_helper(linky):
+    q = raw_input("would you like to check out the content of this task?(y/n) ")
+    if q == "y":
+        print NotificationAnnoyer.tasks_dict[linky.data]
+        print "\n"
+    elif q == "n":
+        return
+    else:
+        print "please enter y or n"
+        go_through_helper(linky)
+
 
 
 # test to see if linked list works
