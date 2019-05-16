@@ -104,24 +104,22 @@ class DoublyLinkedList:
             temp = temp.next
         print "No such node has been found"
 
+# dll order
     def order(self):
         temp = self.head
-        cur = self.head
-        ordered = ""
-        while temp is not None:
-            q = re.findall("\d*", temp.data)
-            p = "".join(q)
-            ordered = ordered.__add__(p)
-            temp = temp.next
-        ordered_list = sorted(ordered)
-        i = 0
-        while cur is not None:
-            cur.data = "task"+ordered_list[i]
-            i += 1
-            cur = cur.next
-            print i
-        print self.print_list()
+        cur = temp.next
+        while temp.next is not None:
+            temp = self.head
+            if temp.data > cur.data:
+                self.insert_after(cur, temp.data)
+                temp = None
+                temp = self.head
+                cur = temp.next
+            else:
+                temp = self.head.next
+                cur = cur.next
         return self
+
 
     def print_list(self):
         global last
@@ -148,7 +146,7 @@ def main():
     d.append("task3")
     d.append("task4")
     d.append("task9")
-    d.order()
+    #d.order()
     #print len(d)
     #print d.print_k(2)
     #print d.print_list()
