@@ -6,7 +6,8 @@ def main():
     ans = raw_input("please select an option:\n"
                     "1. entering a task\n"
                     "2. taking a look at a task\n"
-                    "3. flip through tasks\n")
+                    "3. flip through tasks\n"
+                    "4. exit\n")
     if ans == "1":
         task = raw_input("please enter the title of a task: ")
         NotificationAnnoyer.ask(task)
@@ -16,6 +17,8 @@ def main():
         NotificationAnnoyer.look_at_task()
     elif ans == "3":
         LLFeatures.go_through()
+    elif ans == "4":
+        return
     else:
         print "\nplease enter one of the available options"
         main()
