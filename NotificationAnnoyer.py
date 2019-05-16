@@ -52,41 +52,43 @@ def time_left(dDates, dTimes):
 
 def dead(d, t):
     return time_left(d, t).days
+LLFeatures.linked_list.insert("task1")
+LLFeatures.linked_list.append("task30")
+#print LLFeatures.linked_list.print_list()
+the_list = LLFeatures.linked_list
+
 
 
 tasks_dict = {
               "task1": {"title": "cancel Spotify premium",
-                        "deadline": "2019-05-10",
+                        "deadline": "2019-05-21",
                         "deadtime": "23-50-50",
                         "start date": "2019-05-05",
                         "start time": "14-57-09",
-                        "time left": time_left("2019-05-10", "23-50-50"),
-                        "Recommendation": Recommendations.give_recommend(dead("2019-05-10", "23-50-50"),
-                                                                "task1")
+                        "time left": time_left("2019-05-21", "23-50-50"),
+                        "Recommendation": Recommendations.give_recommend(dead("2019-05-21", "23-50-50"),
+                                                                "task1", the_list)
                         },
-              "task2": {"title": "pay rent",
-                        "deadline": "2020-05-10",
+              "task30": {"title": "pay rent",
+                        "deadline": "2019-05-20",
                         "deadtime": "23-59-59",
                         "start date": "2019-05-04",
                         "start time": "15-45-57",
-                        "time left": time_left("2020-05-10", "23-59-59"),
-                        "Recommendation": Recommendations.give_recommend(dead("2020-05-10", "23-59-59"),
-                                                                "task99")
+                        "time left": time_left("2019-05-20", "23-59-59"),
+                        "Recommendation": Recommendations.give_recommend(dead("2019-05-20", "23-59-59"),
+                                                                "task30", the_list)
                         }
               }
 
-LLFeatures.linked_list.insert("task1")
-LLFeatures.linked_list.append("task2")
-print LLFeatures.linked_list.print_list()
 
 
 def printing():
     for key, val in tasks_dict.items():
         print tasks_dict[key]
 
-printing()
-print tasks_dict["task1"]
-print tasks_dict["task1"]["time left"]
+#printing()
+#print tasks_dict["task1"]
+#print tasks_dict["task1"]["time left"]
 
 # NotSure.py
 
@@ -166,7 +168,7 @@ def add_task(task_title, add):
             starttime = starting.astimezone(get_localzone()).time()
             timeLeft = time_left(deadline, deadtime)
             recommend = Recommendations.give_recommend(dead(deadline, deadtime),
-                                                       task_key)
+                                                       task_key, the_list)
             tasks_dict.update({task_key: {"title": title,
                                         "deadline": deadline,
                                         "deadtime": deadtime,
@@ -216,7 +218,7 @@ def changing_urgency(task, level):
 
 def look_at_task():
     ans = "task" + raw_input("please enter the number of the task you would like to take a look at: ")
-    LLFeatures.open_task(ans)
+    LLFeatures.open_it(ans)
 
 
 def another_task():
@@ -225,3 +227,6 @@ def another_task():
         Asker.main()
     elif y == "no":
         print "Okay. Well done on getting things accomplished today!"
+
+
+

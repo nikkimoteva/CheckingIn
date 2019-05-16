@@ -46,7 +46,7 @@ def redata_node(old_data, new_data):
     print "ERROR you shouldn't have reached here NotificationAnnoyer must have stopped you before"
 
 
-def open_task(data):
+def open_it(data):
     node = linked_list.find_node(data)
     if node == None:
         print "please enter an existing task"
@@ -111,12 +111,12 @@ def open_task(task):
         print switch(7, task)
     else:
         print "invalid number, please enter one of the options"
-        open_task(task)
+        open_it(task)
     go = raw_input("would you like to go through another option?(y/n) ")
     if go == "y":
         open_task(task)
     else:
-        print "okay, off to next task then"
+        print "okay, off to next task then\n"
         return
 
 
