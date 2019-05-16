@@ -98,7 +98,8 @@ def open_task(task):
                       "5. start time\n"
                       "6. time left\n"
                       "7. Recommendation\n"
-                      "8. All\n")
+                      "8. All\n"
+                      "9. Go back\n")
     which = int(which)
     if which == 1:
         print switch(1, task)
@@ -116,15 +117,35 @@ def open_task(task):
         print switch(7, task)
     elif which == 8:
         open_it_helper(task, "yes")
+    elif which == 9:
+        option_go_back(task)
     else:
         print "invalid number, please enter one of the options"
-        open_it(task)
+        open_task(task)
+    open_task_helper(task)
+
+
+def open_task_helper(task):
     go = raw_input("would you like to go through another option?(y/n) ")
     if go == "y":
         open_task(task)
     else:
         print "okay, off to next task then\n"
-        return
+
+
+def option_go_back(linky):
+    node = linked_list.find_node(linky)
+    ans = raw_input("go to previous task?(y/n) ")
+    if ans == "y":
+        if linky == linked_list.head.data:
+            print "there are no tasks before " + str(linky)
+            open_task(linky)
+        else:
+            go_to = node.prev
+            print go_to.data
+            go_through_helper(go_to)
+    if ans == "no":
+        open_task(linky)
 
 
 def switch(n, task):

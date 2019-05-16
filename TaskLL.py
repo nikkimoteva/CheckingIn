@@ -118,6 +118,7 @@ class DoublyLinkedList:
             else:
                 temp = self.head.next
                 cur = cur.next
+        print self.print_list()
         return self
 
 
@@ -141,12 +142,12 @@ def main():
     d = DoublyLinkedList()
     p = Node(data="task3")
     d.insert("task0")
-    d.append("task1")
-    d.append("task2")
-    d.append("task3")
     d.append("task4")
+    d.append("task2")
+    d.append("task1")
+    d.append("task3")
     d.append("task9")
-    #d.order()
+    d.order()
     #print len(d)
     #print d.print_k(2)
     #print d.print_list()
