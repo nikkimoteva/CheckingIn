@@ -53,13 +53,17 @@ def open_it(data):
         NotificationAnnoyer.look_at_task()
     else:
         a = raw_input("would you like to see the content of this task?(yes/no) ")
-        if a == "yes":
-            print NotificationAnnoyer.tasks_dict[data]
-        elif a == "no":
-            print "Okay, moving on then"
-        else:
-            print "please enter either yes or no"
-            open_task(data)
+        open_it_helper(data, a)
+
+
+def open_it_helper(data, a):
+    if a == "yes":
+        print NotificationAnnoyer.tasks_dict[data]
+    elif a == "no":
+        print "Okay, moving on then"
+    else:
+        print "please enter either yes or no"
+        open_task(data)
 
 
 def go_through():
@@ -93,7 +97,8 @@ def open_task(task):
                       "4. start date\n"
                       "5. start time\n"
                       "6. time left\n"
-                      "7. Recommendation\n")
+                      "7. Recommendation\n"
+                      "8. All\n")
     which = int(which)
     if which == 1:
         print switch(1, task)
@@ -109,6 +114,8 @@ def open_task(task):
         print switch(6, task)
     elif which == 7:
         print switch(7, task)
+    elif which == 8:
+        open_it_helper(task, "yes")
     else:
         print "invalid number, please enter one of the options"
         open_it(task)
