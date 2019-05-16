@@ -61,10 +61,11 @@ def open_task(data):
             print "please enter either yes or no"
             open_task(data)
 
+
 def go_through():
     temp = linked_list.head
     while temp is not None:
-        print temp.data
+        print temp.data + " : " + NotificationAnnoyer.tasks_dict[temp.data]["title"]
         go_through_helper(temp)
         temp = temp.next
     print "Those were all the tasks!"
@@ -74,14 +75,62 @@ def go_through():
 def go_through_helper(linky):
     q = raw_input("would you like to check out the content of this task?(y/n) ")
     if q == "y":
-        print NotificationAnnoyer.tasks_dict[linky.data]
+        #print NotificationAnnoyer.tasks_dict[linky.data]
         print "\n"
+        open_task(linky.data)
     elif q == "n":
         return
     else:
         print "please enter y or n"
         go_through_helper(linky)
 
+
+def open_task(task):
+    which = raw_input("please choose one of the options:\n"
+                      "1. title\n"
+                      "2. deadline\n"
+                      "3. deadtime\n"
+                      "4. start date\n"
+                      "5. start time\n"
+                      "6. time left\n"
+                      "7. Recommendation\n")
+    which = int(which)
+    if which == 1:
+        print switch(1, task)
+    elif which == 2:
+        print switch(2, task)
+    elif which == 3:
+        print switch(3, task)
+    elif which == 4:
+        print switch(4, task)
+    elif which == 5:
+        print switch(5, task)
+    elif which == 6:
+        print switch(6, task)
+    elif which == 7:
+        print switch(7, task)
+    else:
+        print "invalid number, please enter one of the options"
+        open_task(task)
+    go = raw_input("would you like to go through another option?(y/n) ")
+    if go == "y":
+        open_task(task)
+    else:
+        print "okay, off to next task then"
+        return
+
+
+def switch(n, task):
+    switcher = {
+        1: NotificationAnnoyer.tasks_dict[task]["title"],
+        2: NotificationAnnoyer.tasks_dict[task]["deadline"],
+        3: NotificationAnnoyer.tasks_dict[task]["deadtime"],
+        4: NotificationAnnoyer.tasks_dict[task]["start date"],
+        5: NotificationAnnoyer.tasks_dict[task]["start time"],
+        6: NotificationAnnoyer.tasks_dict[task]["time left"],
+        7: NotificationAnnoyer.tasks_dict[task]["Recommendation"]
+    }
+    return switcher[n]
 
 
 # test to see if linked list works
@@ -94,13 +143,13 @@ def main():
     linked_list.insert("task4")
     linked_list.insert("task9")
     add_node(d)
-    print len(linked_list)
+    #print len(linked_list)
     print linked_list.print_k(2)
-    print linked_list.print_list()
-    print p_k(2)
-    print random()
-    print redata_node("task0", "task9999")
-    print open_task("task1")
+    #print linked_list.print_list()
+    #print p_k(2)
+    #print random()
+    #print redata_node("task0", "task9999")
+    #print open_task("task1")
 
 
 if __name__ == "__main__":
