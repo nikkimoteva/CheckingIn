@@ -172,7 +172,7 @@ def main():
     linked_list.insert("task9")
     add_node(d)
     #print len(linked_list)
-    print linked_list.print_k(2)
+    #print linked_list.print_k(2)
     #print linked_list.print_list()
     #print p_k(2)
     #print random()
