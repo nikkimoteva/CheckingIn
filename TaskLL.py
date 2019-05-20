@@ -20,7 +20,7 @@ class DoublyLinkedList:
         if self.head is not None:
             self.head.prev = new_node
         self.head = new_node
-        self.order()
+        #self.order()
         return new_node
 
     def insert_after(self, prev_node, new_data):
@@ -33,7 +33,6 @@ class DoublyLinkedList:
         new_node.prev = prev_node
         if new_node.next is not None:
             new_node.next.prev = new_node
-        self.order()
 
     def append(self, new_data):
         new_node = Node(new_data)
@@ -106,21 +105,23 @@ class DoublyLinkedList:
 
 # dll order
     def order(self):
+        # NotSure.py 4
         temp = self.head
-        cur = temp.next
-        while temp.next is not None:
-            temp = self.head
-            if temp.data > cur.data:
-                self.insert_after(cur, temp.data)
-                temp = None
-                temp = self.head
-                cur = temp.next
-            else:
-                temp = self.head.next
-                cur = cur.next
+        cur = self.head
+        ordered = []
+        while temp is not None:
+            q = re.findall("\d*", temp.data)
+            p = "".join(q)
+            ordered.append(p)
+            temp = temp.next
+        ordered_list = sorted(ordered)
+        i = 0
+        while cur is not None:
+            cur.data = "task" + ordered_list[i]
+            i += 1
+            cur = cur.next
         print self.print_list()
         return self
-
 
     def print_list(self):
         global last
@@ -150,7 +151,7 @@ def main():
     d.order()
     #print len(d)
     #print d.print_k(2)
-    #print d.print_list()
+    print d.print_list()
 
 
 if __name__ == "__main__":
