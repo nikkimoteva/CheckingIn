@@ -7,6 +7,7 @@ import Recommendations
 import LLFeatures
 import TaskLL
 import re
+import time
 
 # put in the tasks that need to be done
 # input: subject, deadline
@@ -14,12 +15,21 @@ import re
 dateTime = datetime.datetime.now().hour
 print dateTime
 
+
+
 #NotSure.py #3
+
+
 
 #print Recommendations.give_recommend(10, "task3")
 
 # tasks
 # To access element of a nested dictionary, we use indexing [] syntax in Python
+
+
+
+# print(x.strftime("%A"))
+# USE THIS FOR GETTING THE DAY OF THE WEEK!!!!
 
 
 def deadline(dDates):
@@ -29,7 +39,7 @@ def deadline(dDates):
 
 
 def deadtime(dTimes):
-    hours, minutes, seconds = map(int, dTimes.split("-"))
+    hours, minutes, seconds = map(int, dTimes.split(":"))
     dTime = datetime.time(hours, minutes, seconds)
     return dTime
 
@@ -37,8 +47,13 @@ def deadtime(dTimes):
 def time_left(dDates, dTimes):
     starting = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
     starting_now = starting.astimezone(get_localzone())
-    startDate = starting_now.date()
-    startTime = starting_now.time()
+
+    date_started = starting_now.date()
+    y, m, d = date_started.year, date_started.month, date_started.day
+    print y, m, d
+    startDate = datetime.date(y, m, d)
+    print startDate
+    startTime = starting_now.time().replace(microsecond=0)
 
     time = deadtime(dTimes)
     date = deadline(dDates)
@@ -52,9 +67,11 @@ def time_left(dDates, dTimes):
 
 def dead(d, t):
     return time_left(d, t).days
-LLFeatures.linked_list.insert("task1")
-LLFeatures.linked_list.append("task30")
-#print LLFeatures.linked_list.print_list()
+
+
+LLFeatures.linked_list.insert("task30")
+LLFeatures.linked_list.append("task1")
+# print LLFeatures.linked_list.print_list()
 the_list = LLFeatures.linked_list
 
 
@@ -62,20 +79,20 @@ the_list = LLFeatures.linked_list
 tasks_dict = {
               "task1": {"title": "cancel Spotify premium",
                         "deadline": "2019-05-21",
-                        "deadtime": "23-50-50",
+                        "deadtime": "23:50:50",
                         "start date": "2019-05-05",
-                        "start time": "14-57-09",
-                        "time left": time_left("2019-05-21", "23-50-50"),
-                        "Recommendation": Recommendations.give_recommend(dead("2019-05-21", "23-50-50"),
+                        "start time": "14:57:09",
+                        "time left": time_left("2019-05-21", "23:50:50"),
+                        "Recommendation": Recommendations.give_recommend(dead("2019-05-21", "23:50:50"),
                                                                 "task1", the_list)
                         },
               "task30": {"title": "pay rent",
                         "deadline": "2019-05-20",
-                        "deadtime": "23-59-59",
+                        "deadtime": "23:59:59",
                         "start date": "2019-05-04",
-                        "start time": "15-45-57",
-                        "time left": time_left("2019-05-20", "23-59-59"),
-                        "Recommendation": Recommendations.give_recommend(dead("2019-05-20", "23-59-59"),
+                        "start time": "15:45:57",
+                        "time left": time_left("2019-05-20", "23:59:59"),
+                        "Recommendation": Recommendations.give_recommend(dead("2019-05-20", "23:59:59"),
                                                                 "task30", the_list)
                         }
               }
@@ -95,7 +112,7 @@ def printing():
 
 # send alert here
 def ask(task_title):
-    if dateTime == 12:
+    if dateTime == 20:
         key_task(task_title)
 
 
@@ -163,9 +180,10 @@ def add_task(task_title, add):
             starting = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
             title = task_title
             deadline = raw_input("When is the deadline (YYYY-MM-DD)? ")
-            deadtime = raw_input("What time is the deadline (hours-minutes-seconds)? ")
-            startdate = starting.astimezone(get_localzone()).date()
-            starttime = starting.astimezone(get_localzone()).time()
+            deadtime = raw_input("What time is the deadline (hh:mm:ss)? ")
+            time_zone = starting.astimezone(get_localzone())
+            startdate = time_zone.date()
+            starttime = time_zone.time().replace(microsecond=0)
             timeLeft = time_left(deadline, deadtime)
             recommend = Recommendations.give_recommend(dead(deadline, deadtime),
                                                        task_key, the_list)
@@ -222,11 +240,9 @@ def look_at_task():
 
 
 def another_task():
-    y = raw_input("do you want to enter another task?(yes/no) ")
+    y = raw_input("do you want to continue with the tasks?(yes/no) ")
     if y == "yes":
         Asker.main()
     elif y == "no":
         print "Okay. Well done on getting things accomplished today!"
-
-
 
