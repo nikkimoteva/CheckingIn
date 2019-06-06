@@ -50,10 +50,13 @@ def open_it(data):
     node = linked_list.find_node(data)
     if node == None:
         print "please enter an existing task"
+        print "task numbers: "
+        print NotificationAnnoyer.tasks_dict.keys()
         NotificationAnnoyer.look_at_task()
     else:
         a = raw_input("would you like to see the content of this task?(yes/no) ")
         open_it_helper(data, a)
+        Asker.main()
 
 
 def open_it_helper(data, a):

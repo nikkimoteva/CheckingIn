@@ -11,10 +11,10 @@ def switch(i, d, linky):
                                                     "I recommend doing it in the next few days",
             3: "you have " + str(d) + " days left. It's not very urgent now, "
                                       "but I think it's better to do it in the next " + str(time(d)) +
-                       " days to avoid unnecessary high stress levels",
+                                    " days to avoid unnecessary high stress levels",
             4: "you have " + str(d) + " days left. You can still manage to procrastinate based on the level of "
                                       "the task. I would recommend for you to work on tasks with higher urgency,"
-                                      " such as:\n" + str(todo(d, linky)),
+                                      " such as: " + str(todo(d, linky)),
             5: "you have missed the deadline"
         }
         return switcher[i]
