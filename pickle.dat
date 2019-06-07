@@ -1,0 +1,39 @@
+(dp0
+S'task1'
+p1
+(dp2
+S'title'
+p3
+S'cancel Spotify premium'
+p4
+sS'start time'
+p5
+S'14:57:09'
+p6
+sS'deadline'
+p7
+S'2019-05-21'
+p8
+sS'deadtime'
+p9
+S'23:50:50'
+p10
+sS'Recommendation'
+p11
+S'you have missed the deadline'
+p12
+sS'start date'
+p13
+S'2019-05-05'
+p14
+sS'time left'
+p15
+cdatetime
+timedelta
+p16
+(I-17
+I36254
+I0
+tp17
+Rp18
+ss.
