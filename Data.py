@@ -1,7 +1,20 @@
+import os
 import shelve
 import contextlib
 import NotificationAnnoyer
-import cPickle
+import pickle
+
+pick = "pickle.dat"
+
+
+def dump(tasks_todo):
+    with open(pick, "wb") as f:
+        pickle.dump(tasks_todo, f)
+
+
+def load():
+    with open(pick, "rb") as f:
+        pickle.load(f)
 
 # TODO use cPickle to save the keys as non-strings and their actual type
 
@@ -9,30 +22,39 @@ import cPickle
 # task is string, the key of task_dict
 def initial_data():
     # tasks
+    text = "task-1"
     with contextlib.closing(shelve.open("TODO", 'c')) as shelf:
-        shelf["task-1"] = {
-                "title": "pay rent",
-                "deadline": "2019-05-20",
-                "deadtime": "23:59:59",
-                "start date": "2019-05-04",
-                "start time": "15:45:57",
-                "time left": NotificationAnnoyer.time_left("2019-05-20", "23:59:59"),
-                "Recommendation": NotificationAnnoyer.Recommendations.give_recommend(
-                    NotificationAnnoyer.dead("2019-05-20", "23:59:59"), "task-1", NotificationAnnoyer.the_list)
+        shelf[text] = {
+            "title": "pay rent",
+            "deadline": "2019-05-20",
+            "deadtime": "23:59:59",
+            "start date": "2019-05-04",
+            "start time": "15:45:57",
+            "time left": NotificationAnnoyer.time_left("2019-05-20", "23:59:59"),
+            "Recommendation": NotificationAnnoyer.Recommendations.give_recommend(
+                NotificationAnnoyer.dead("2019-05-20", "23:59:59"), "task-1", NotificationAnnoyer.the_list)
         }
         shelf.close()
+    initial = pickle.dumps(text)
+    return initial
+
 
 
 def write_task(task):
     # need to append here instead of over-writing
     with contextlib.closing(shelve.open('TODO', 'c', writeback=True)) as shelf:
         shelf[task] = NotificationAnnoyer.tasks_dict[task]
+    pickle.dumps(task)
 
+
+def load_pickle(task):
+    return pickle.loads(task)
 
 def read_task():
     with contextlib.closing(shelve.open("TODO", 'r')) as shelf:
         for key in shelf.keys():
-            print repr(key), repr(shelf[key])
+            k = pickle.loads(key)
+            print k, repr(shelf[key])
 
 
 def delete_data(task):
@@ -46,5 +68,5 @@ def delete_data(task):
 def print_data():
     with contextlib.closing(shelve.open("TODO", 'r')) as shelf:
         for key, value in shelf.iteritems():
-            print repr(key), repr(value)
+            print pickle.loads(key), repr(value)
     NotificationAnnoyer.another_task()
