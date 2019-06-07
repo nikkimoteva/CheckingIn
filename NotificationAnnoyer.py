@@ -7,6 +7,7 @@ import Recommendations
 import LLFeatures
 import re
 import Data
+import pickle
 
 # put in the tasks that need to be done
 # input: subject, deadline
@@ -75,8 +76,9 @@ the_list = LLFeatures.linked_list
 
 # task_dict data: NotSure.py #5
 
+global tasks_dict
 tasks_dict = {
-              "task1": {"title": "cancel Spotify premium",
+    "task1": {"title": "cancel Spotify premium",
                         "deadline": "2019-05-21",
                         "deadtime": "23:50:50",
                         "start date": "2019-05-05",
@@ -84,7 +86,7 @@ tasks_dict = {
                         "time left": time_left("2019-05-21", "23:50:50"),
                         "Recommendation": Recommendations.give_recommend(dead("2019-05-21", "23:50:50"),
                                                                 "task1", the_list)
-                        }
+    }
 }
 
 
@@ -104,24 +106,23 @@ def printing():
 
 # send alert here
 def ask(task_title):
-    if dateTime == 18:
+    if dateTime == 13:
         adding_dict()
         key_task(task_title)
 
 def adding_dict():
-    with Data.contextlib.closing(Data.shelve.open("TODO", 'c')) as shelf:
-        for key, value in shelf.iteritems():
-            if tasks_dict.has_key(key):
-                pass
-            else:
-                tasks_dict.update({repr(key): repr(value)})
+    global tasks_dict
+    Data.dump(tasks_dict)
+    tasks_dict = Data.load()
     printing()
 
 
 def key_task(task_title):
-    for t_id, t_val in tasks_dict.items():
-        if tasks_dict[t_id]["title"] == task_title:
-            task_id = t_id
+    for key in tasks_dict.keys():
+        #t_id, t_val in tasks_dict.items():
+        print key
+        if tasks_dict[int(key)]["title"] == task_title:
+            task_id = key
             break
         else:
             task_id = ""
