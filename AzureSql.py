@@ -12,8 +12,8 @@ cursor2.execute(
     "select count(*) from information_schema.columns where table_catalog = 'tasks' and table_name = 'Tasks'"
 )
 i = cursor2.fetchone()
-i = [x for x in i]
-i = i[0]
+for x in i:
+    i = x
 temp = 0
 string_row = ""
 
