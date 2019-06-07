@@ -5,9 +5,8 @@ import Asker
 from datetime import datetime as dt
 import Recommendations
 import LLFeatures
-import TaskLL
 import re
-import time
+import Data
 
 # put in the tasks that need to be done
 # input: subject, deadline
@@ -74,7 +73,7 @@ LLFeatures.linked_list.append("task1")
 # print LLFeatures.linked_list.print_list()
 the_list = LLFeatures.linked_list
 
-
+# task_dict data: NotSure.py #5
 
 tasks_dict = {
               "task1": {"title": "cancel Spotify premium",
@@ -85,22 +84,15 @@ tasks_dict = {
                         "time left": time_left("2019-05-21", "23:50:50"),
                         "Recommendation": Recommendations.give_recommend(dead("2019-05-21", "23:50:50"),
                                                                 "task1", the_list)
-                        },
-              "task30": {"title": "pay rent",
-                        "deadline": "2019-05-20",
-                        "deadtime": "23:59:59",
-                        "start date": "2019-05-04",
-                        "start time": "15:45:57",
-                        "time left": time_left("2019-05-20", "23:59:59"),
-                        "Recommendation": Recommendations.give_recommend(dead("2019-05-20", "23:59:59"),
-                                                                "task30", the_list)
                         }
-              }
+}
+
 
 
 
 def printing():
-    for key, val in tasks_dict.items():
+    for key, val in tasks_dict.iteritems():
+        print key
         print tasks_dict[key]
 
 #printing()
@@ -112,8 +104,18 @@ def printing():
 
 # send alert here
 def ask(task_title):
-    if dateTime == 20:
+    if dateTime == 18:
+        adding_dict()
         key_task(task_title)
+
+def adding_dict():
+    with Data.contextlib.closing(Data.shelve.open("TODO", 'c')) as shelf:
+        for key, value in shelf.iteritems():
+            if tasks_dict.has_key(key):
+                pass
+            else:
+                tasks_dict.update({repr(key): repr(value)})
+    printing()
 
 
 def key_task(task_title):
@@ -135,6 +137,7 @@ def done_yet(task_id, task_title):
                 print ("well done! you can now stop thinking about it")
                 # delete from dict
                 tasks_dict.pop(task_id)
+                Data.delete_data(task_id)
                 print tasks_dict
                 # remove task from LLFeatures
                 #node = TaskLL.Node(data= task_id)
@@ -195,6 +198,7 @@ def add_task(task_title, add):
                                         "time left": timeLeft,
                                         "Recommendation": recommend},
                                })
+            Data.write_task(task_key)
             # add to LLFeature here
             LLFeatures.linked_list.append(task_key)
             print LLFeatures.linked_list.print_list()
@@ -226,8 +230,10 @@ def changing_urgency(task, level):
             if key == level:
                 x = value
                 tasks_dict.pop(key)
+                Data.delete_data(key)
                 break
         tasks_dict.update({new: x})
+        Data.write_task(task)
         # Change the task name in LLFeatures here
         LLFeatures.redata_node(level, new)
         print LLFeatures.linked_list.print_list()
