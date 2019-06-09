@@ -1,5 +1,9 @@
 import pyodbc
 
+#server: todotasks
+#database: tasks
+#un: nikkimoteva
+#pw: 22826651nH
 server = 'xxxx.database.windows.net'
 database = 'xxxx'
 username = 'xxxx'

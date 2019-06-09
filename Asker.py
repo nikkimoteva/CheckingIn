@@ -4,6 +4,7 @@ import Data
 
 def main():
     # I want to ask if they've done the particular task
+    NotificationAnnoyer.adding_dict()
     ans = raw_input("please select an option:\n"
                     "1. entering a task\n"
                     "2. taking a look at a task\n"
@@ -12,6 +13,7 @@ def main():
     if ans == "1":
         task = raw_input("please enter the title of a task: ")
         NotificationAnnoyer.ask(task)
+        Data.dump(NotificationAnnoyer.tasks_dict)
         NotificationAnnoyer.another_task()
         print "tasks manipulated: ", task
     elif ans == "2":
@@ -22,9 +24,7 @@ def main():
         Data.dump(NotificationAnnoyer.tasks_dict)
         return
     elif ans == "5":
-        #Data.print_data()
-        Data.initial_data()
-        NotificationAnnoyer.adding_dict()
+        pass #for now
     else:
         print "\nplease enter one of the available options"
         main()
