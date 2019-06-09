@@ -24,7 +24,7 @@ def main():
         Data.dump(NotificationAnnoyer.tasks_dict)
         return
     elif ans == "5":
-        pass #for now
+        pass # for now
     else:
         print "\nplease enter one of the available options"
         main()
