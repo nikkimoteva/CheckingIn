@@ -7,7 +7,7 @@ import Recommendations
 import LLFeatures
 import re
 import Data
-import pickle
+import storing
 
 # put in the tasks that need to be done
 # input: subject, deadline
@@ -77,17 +77,7 @@ the_list = LLFeatures.linked_list
 # task_dict data: NotSure.py #5
 
 global tasks_dict
-tasks_dict = {
-    "task1": {"title": "cancel Spotify premium",
-                        "deadline": "2019-05-21",
-                        "deadtime": "23:50:50",
-                        "start date": "2019-05-05",
-                        "start time": "14:57:09",
-                        "time left": time_left("2019-05-21", "23:50:50"),
-                        "Recommendation": Recommendations.give_recommend(dead("2019-05-21", "23:50:50"),
-                                                                "task1", the_list)
-    }
-}
+tasks_dict = { }
 
 
 
@@ -106,14 +96,13 @@ def printing():
 
 # send alert here
 def ask(task_title):
-    if dateTime == 13:
-        adding_dict()
+    if dateTime == 22:
         key_task(task_title)
+
 
 def adding_dict():
     global tasks_dict
-    Data.dump(tasks_dict)
-    tasks_dict = Data.load()
+    tasks_dict = storing.load()
     printing()
 
 
@@ -121,7 +110,7 @@ def key_task(task_title):
     for key in tasks_dict.keys():
         #t_id, t_val in tasks_dict.items():
         print key
-        if tasks_dict[int(key)]["title"] == task_title:
+        if tasks_dict[key]["title"] == task_title:
             task_id = key
             break
         else:
@@ -234,7 +223,7 @@ def changing_urgency(task, level):
                 Data.delete_data(key)
                 break
         tasks_dict.update({new: x})
-        Data.write_task(task)
+        #Data.write_task(task)
         # Change the task name in LLFeatures here
         LLFeatures.redata_node(level, new)
         print LLFeatures.linked_list.print_list()
@@ -243,6 +232,7 @@ def changing_urgency(task, level):
 
 def look_at_task():
     ans = "task" + raw_input("please enter the number of the task you would like to take a look at: ")
+    print ans
     LLFeatures.open_it(ans)
 
 
