@@ -174,14 +174,6 @@ def main():
     linked_list.insert("task4")
     linked_list.insert("task9")
     add_node(d)
-    #print len(linked_list)
-    #print linked_list.print_k(2)
-    #print linked_list.print_list()
-    #print p_k(2)
-    #print random()
-    #print redata_node("task0", "task9999")
-    #print open_task("task1")
-
 
 if __name__ == "__main__":
     main()

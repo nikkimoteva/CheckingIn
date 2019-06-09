@@ -1,5 +1,6 @@
 import NotificationAnnoyer
 import LLFeatures
+import Data
 
 def main():
     # I want to ask if they've done the particular task
@@ -18,7 +19,12 @@ def main():
     elif ans == "3":
         LLFeatures.go_through()
     elif ans == "4":
+        Data.dump(NotificationAnnoyer.tasks_dict)
         return
+    elif ans == "5":
+        #Data.print_data()
+        Data.initial_data()
+        NotificationAnnoyer.adding_dict()
     else:
         print "\nplease enter one of the available options"
         main()
