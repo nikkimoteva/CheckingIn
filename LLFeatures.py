@@ -6,6 +6,11 @@ import Asker
 linked_list = TaskLL.DoublyLinkedList()
 
 
+def re_do(all_task_names):
+    for per_task_name in all_task_names:
+        linked_list.insert(per_task_name)
+    linked_list.order()
+
 def add_node(linky):
     if len(linked_list) == 0:
         linked_list.insert(linky.data)
@@ -56,7 +61,7 @@ def open_it(data):
     else:
         a = raw_input("would you like to see the content of this task?(yes/no) ")
         open_it_helper(data, a)
-        Asker.main()
+        Asker.main(0)
 
 
 def open_it_helper(data, a):
@@ -76,7 +81,7 @@ def go_through():
         go_through_helper(temp)
         temp = temp.next
     print "Those were all the tasks!"
-    Asker.main()
+    Asker.main(0)
 
 
 def go_through_helper(linky):
@@ -134,6 +139,7 @@ def open_task_helper(task):
         open_task(task)
     else:
         print "okay, off to next task then\n"
+        return
 
 
 def option_go_back(linky):
@@ -165,15 +171,18 @@ def switch(n, task):
 
 
 # test to see if linked list works
-def main():
-    d = TaskLL.Node(data="task5")
+def main2():
+    #d = TaskLL.Node(data="task5")
     linked_list.insert("task0")
     linked_list.insert("task1")
     linked_list.insert("task2")
     linked_list.insert("task3")
     linked_list.insert("task4")
     linked_list.insert("task9")
-    add_node(d)
+    linked_list.delete_node("task1")
+    linked_list.delete_node("task3")
+    print linked_list.print_list()
+    #add_node(d)
 
 if __name__ == "__main__":
-    main()
+    main2()
