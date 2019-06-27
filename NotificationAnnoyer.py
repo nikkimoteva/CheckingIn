@@ -69,15 +69,13 @@ def dead(d, t):
     return time_left(d, t).days
 
 
-LLFeatures.linked_list.insert("task30")
-LLFeatures.linked_list.append("task1")
 # print LLFeatures.linked_list.print_list()
 the_list = LLFeatures.linked_list
 
 # task_dict data: NotSure.py #5
 
 global tasks_dict
-tasks_dict = { }
+tasks_dict = {}
 
 
 
@@ -96,7 +94,7 @@ def printing():
 
 # send alert here
 def ask(task_title):
-    if dateTime == 22:
+    if dateTime == 4:
         key_task(task_title)
 
 
@@ -104,6 +102,8 @@ def adding_dict():
     global tasks_dict
     tasks_dict = storing.load()
     printing()
+    LLFeatures.re_do(tasks_dict)
+    print LLFeatures.linked_list.print_list()
 
 
 def key_task(task_title):
@@ -239,7 +239,7 @@ def look_at_task():
 def another_task():
     y = raw_input("do you want to continue with the tasks?(yes/no) ")
     if y == "yes":
-        Asker.main()
+        Asker.main(0)
     elif y == "no":
         print "Okay. Well done on getting things accomplished today!"
 
