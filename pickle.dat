@@ -51,74 +51,81 @@ p25
 (dp26
 S'title'
 p27
-S'cry me a river'
+S'go for a run'
 p28
 sS'start time'
 p29
 g6
-(S'\x15;\x13\x00\x00\x00'
+(S'\x04.)\x00\x00\x00'
 p30
 tp31
 Rp32
 sS'deadline'
 p33
-S'2019-09-09'
+S'2019-06-27'
 p34
 sS'deadtime'
 p35
-S'11:11:11'
+S'5:00:00'
 p36
 sS'Recommendation'
 p37
-S'you have 92 days left. You can still manage to procrastinate based on the level of the task. I would recommend for you to work on tasks with higher urgency, such as: task30'
+S"ALERT! THE DEADLINE IS TODAY. YOU WILL MISS THE DEADLINE IF YOU DON'T FINISH THE TASK TODAY!"
 p38
 sS'start date'
 p39
 g17
-(S'\x07\xe3\x06\x08'
+(S'\x07\xe3\x06\x1b'
 p40
 tp41
 Rp42
 sS'time left'
 p43
 g22
-(I92
-I47505
+(I0
+I785
 I0
 tp44
 Rp45
 ssS'task5'
 p46
 (dp47
-g27
-S'pay rent'
+S'title'
 p48
-sg29
+S'pay rent'
+p49
+sS'start time'
+p50
 g6
 (S'\x15;,\x00\x00\x00'
-p49
-tp50
-Rp51
-sg33
-S'2019-06-06'
-p52
-sg35
-S'12:12:12'
-p53
-sg37
-S'you have missed the deadline'
+p51
+tp52
+Rp53
+sS'deadline'
 p54
-sg39
+S'2019-06-06'
+p55
+sS'deadtime'
+p56
+S'12:12:12'
+p57
+sS'Recommendation'
+p58
+S'you have missed the deadline'
+p59
+sS'start date'
+p60
 g17
 (S'\x07\xe3\x06\x08'
-p55
-tp56
-Rp57
-sg43
+p61
+tp62
+Rp63
+sS'time left'
+p64
 g22
 (I-3
 I51137
 I0
-tp58
-Rp59
+tp65
+Rp66
 ss.
