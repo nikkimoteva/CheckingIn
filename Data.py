@@ -5,15 +5,24 @@ import NotificationAnnoyer
 import pickle
 
 pick = "pickle.dat"
+quick_pick = "quick_pickle.dat"
 
 
 def dump(tasks_todo):
     with open(pick, "wb") as f:
         pickle.dump(tasks_todo, f)
 
+def quick_dump(quick_t):
+    with open(quick_pick, "wb") as f:
+        pickle.dump(quick_t, f)
+
 
 def load():
     with open(pick, "rb") as f:
+        pickle.load(f)
+
+def quick_load():
+    with open(quick_pick, "rb") as f:
         pickle.load(f)
 
 # TODO use cPickle to save the keys as non-strings and their actual type
