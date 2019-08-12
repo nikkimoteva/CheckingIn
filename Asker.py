@@ -1,6 +1,7 @@
 import NotificationAnnoyer
 import LLFeatures
 import Data
+import QuickTasks
 
 def main(arg):
     # I want to ask if they've done the particular task
@@ -12,7 +13,8 @@ def main(arg):
                         "1. entering a task\n"
                         "2. taking a look at a task\n"
                         "3. flip through tasks\n"
-                        "4. exit\n")
+                        "4. quick tasks\n"
+                        "5. exit\n")
         if ans == "1":
             task = raw_input("please enter the title of a task: ")
             NotificationAnnoyer.ask(task)
@@ -23,11 +25,17 @@ def main(arg):
             NotificationAnnoyer.look_at_task()
         elif ans == "3":
             LLFeatures.go_through()
-        elif ans == "4":
-            Data.dump(NotificationAnnoyer.tasks_dict)
             return
+        elif ans == "4":
+            try:
+                QuickTasks.loading_tasks()
+                QuickTasks.entering_info_question()
+            except:
+                print "except here"
+                QuickTasks.quick()
         elif ans == "5":
-            pass # for now
+            Data.dump(NotificationAnnoyer.tasks_dict)
+            Data.quick_dump(QuickTasks.quick_t)
         else:
             print "\nplease enter one of the available options"
             main()
