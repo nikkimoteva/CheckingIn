@@ -94,7 +94,7 @@ def printing():
 
 # send alert here
 def ask(task_title):
-    if dateTime == 4:
+    if dateTime == 13:
         key_task(task_title)
 
 
