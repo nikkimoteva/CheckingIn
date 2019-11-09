@@ -20,7 +20,7 @@
             Label:
                 size_hint: 0.5,0.12
                 pos_hint: {"x":0, "top":0.8}
-                text: "Name: "
+                text: "Name "
                 font_size: (root.width**2 + root.height**2) / 14**4
 
             TextInput:
@@ -32,8 +32,8 @@
 
             Label:
                 size_hint: 0.5,0.12
-                pos_hint: {"x":0, "top":0.8-0.13}
-                text: "Email: "
+                pos_hint: {"x":-0.005, "top":0.8-0.13}
+                text: "Email "
                 font_size: (root.width**2 + root.height**2) / 14**4
 
             TextInput:
@@ -46,7 +46,7 @@
             Label:
                 size_hint: 0.5,0.12
                 pos_hint: {"x":0, "top":0.8-0.13*2}
-                text: "Password: "
+                text: "Password "
                 font_size: (root.width**2 + root.height**2) / 14**4
 
             TextInput:
@@ -85,9 +85,9 @@
     FloatLayout:
 
         Label:
-            text:"Email: "
+            text:"Email "
             font_size: (root.width**2 + root.height**2) / 13**4
-            pos_hint: {"x":0.1, "top":0.9}
+            pos_hint: {"x":0.072, "top":0.9}
             size_hint: 0.35, 0.15
 
         TextInput:
@@ -98,9 +98,9 @@
             size_hint: 0.4, 0.15
 
         Label:
-            text:"Password: "
+            text:"Password "
             font_size: (root.width**2 + root.height**2) / 13**4
-            pos_hint: {"x":0.1, "top":0.7}
+            pos_hint: {"x":0.07, "top":0.7}
             size_hint: 0.35, 0.15
 
         TextInput:
@@ -132,54 +132,85 @@
 
 <MainWindow>:
     n: n
-    email: email
 
     FloatLayout:
-        Label:
-            id: n
-            pos_hint:{"x": 0.1, "top":0.9}
-            size_hint:0.8, 0.2
-            text: "Account Name: "
 
         Label:
-            id: email
-            pos_hint:{"x": 0.1, "top":0.7}
+            text: "Welcome"
+            font_size: 200
+            pos_hint:{"x": 0.1, "top":1.0}
+            size_hint:0.8, 0.5
+
+        Label:
+            id: n
+            pos_hint:{"x": 0.1, "top":0.65}
             size_hint:0.8, 0.2
-            text: "Email: "
+            font_size : 200
 
         Button:
             pos_hint:{"x":0.2, "y": 0.1}
             size_hint:0.6,0.2
-            text: "Log Out"
+            text: "Continue"
             on_release:
-                app.root.current = "login"
-                root.manager.transition.direction = "down"
+                root.next()
+                root.manager.transition.direction = "up"
+
 
 <AskerPage>:
-    name: "Option"
+    name: "asker"
 
     option: option
 
     FloatLayout:
 
         Label:
-            text:"Option: "
-            font_size: (root.width**2 + root.height**2) / 13**4
+            text:"please enter an option: "
+            font_size: 45
             pos_hint: {"x":0.1, "top":0.9}
+            size_hint: 0.35, 0.15
+
+        Label:
+            text:"1. entering a task"
+            font_size: 45
+            pos_hint: {"x":0.4, "top":0.8}
+            size_hint: 0.35, 0.15
+
+        Label:
+            text:"2. taking a look at a task"
+            font_size: 50
+            pos_hint: {"x":0.46, "top":0.75}
+            size_hint: 0.35, 0.15
+
+        Label:
+            text:"3. flip through tasks"
+            font_size: 50
+            pos_hint: {"x":0.43, "top":0.7}
+            size_hint: 0.35, 0.15
+
+        Label:
+            text:"4. quick tasks"
+            font_size: 50
+            pos_hint: {"x":0.385, "top":0.65}
+            size_hint: 0.35, 0.15
+
+        Label:
+            text:"5. exit"
+            font_size: 50
+            pos_hint: {"x":0.33, "top":0.6}
             size_hint: 0.35, 0.15
 
         TextInput:
             id: option
-            font_size: (root.width**2 + root.height**2) / 13**4
+            font_size: 100
             multiline: False
-            pos_hint: {"x": 0.45 , "top":0.9}
-            size_hint: 0.4, 0.15
+            pos_hint: {"x": 0.43 , "top":0.45}
+            size_hint: 0.075, 0.1
 
         Button:
             pos_hint:{"x":0.2,"y":0.05}
             size_hint: 0.6, 0.2
-            font_size: (root.width**2 + root.height**2) / 13**4
+            font_size: 50
             text: "Enter"
             on_release:
+                root.options()
                 root.manager.transition.direction = "left"
-                root.createBtn()
