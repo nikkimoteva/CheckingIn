@@ -23,7 +23,8 @@ class CreateAccountWindow(Screen):
     password = ObjectProperty(None)
 
     def submit(self):
-        if self.namee.text != "" and self.email.text != "" and self.email.text.count("@") == 1 and self.email.text.count(".") > 0:
+        if self.namee.text != "" and self.email.text != "" and \
+                self.email.text.count("@") == 1 and self.email.text.count(".") > 0:
             if self.password != "":
                 db.add_user(self.email.text, self.password.text, self.namee.text)
 
@@ -68,16 +69,17 @@ class LoginWindow(Screen):
 
 class MainWindow(Screen):
     n = ObjectProperty(None)
-    email = ObjectProperty(None)
     current = ""
+
+    def next(self):
+        sm.current = "asker"
 
     def logOut(self):
         sm.current = "login"
 
     def on_enter(self, *args):
-        password, name = db.get_user(self.current)
-        self.n.text = "Account Name: " + name
-        self.email.text = "Email: " + self.current
+        password, name, created = db.get_user(self.current)
+        self.n.text = name
 
 
 class WindowManager(ScreenManager):
@@ -104,7 +106,8 @@ kv = Builder.load_file("checkingin.kv")
 sm = WindowManager()
 db = DataBase("users.txt")
 
-screens = [LoginWindow(name="login"), CreateAccountWindow(name="create"), MainWindow(name="main")]
+screens = [LoginWindow(name="login"), CreateAccountWindow(name="create"), MainWindow(name="main"),
+           AskerPage(name="asker")]
 for screen in screens:
     sm.add_widget(screen)
 
@@ -113,7 +116,7 @@ sm.current = "login"
 
 class CheckingIn(App):
     def build(self):
-        return AskerPage()
+        return sm
 
 
 if __name__ == "__main__":

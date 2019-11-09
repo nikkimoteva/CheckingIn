@@ -154,3 +154,32 @@
             on_release:
                 app.root.current = "login"
                 root.manager.transition.direction = "down"
+
+<AskerPage>:
+    name: "Option"
+
+    option: option
+
+    FloatLayout:
+
+        Label:
+            text:"Option: "
+            font_size: (root.width**2 + root.height**2) / 13**4
+            pos_hint: {"x":0.1, "top":0.9}
+            size_hint: 0.35, 0.15
+
+        TextInput:
+            id: option
+            font_size: (root.width**2 + root.height**2) / 13**4
+            multiline: False
+            pos_hint: {"x": 0.45 , "top":0.9}
+            size_hint: 0.4, 0.15
+
+        Button:
+            pos_hint:{"x":0.2,"y":0.05}
+            size_hint: 0.6, 0.2
+            font_size: (root.width**2 + root.height**2) / 13**4
+            text: "Enter"
+            on_release:
+                root.manager.transition.direction = "left"
+                root.createBtn()

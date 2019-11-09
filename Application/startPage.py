@@ -5,8 +5,19 @@ from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from db import DataBase
+import sys
+sys.path.insert(1, 'Desktop/GitHub/Review/Module9/Iterator/CheckingIn')
+import Asker
+import NotificationAnnoyer
 #import Data
 #use this import to retrieve the information and return for the user
+
+class AskerPage(Screen):
+    option = ObjectProperty(None)
+    def options(self):
+        NotificationAnnoyer.adding_dict()
+        Asker.options(self.option.text)
+
 
 
 class CreateAccountWindow(Screen):
