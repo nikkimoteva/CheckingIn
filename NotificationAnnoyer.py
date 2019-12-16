@@ -54,7 +54,6 @@ def time_left(dDates, dTimes):
     startDate = datetime.date(y, m, d)
     print startDate
     startTime = starting_now.time().replace(microsecond=0)
-
     time = deadtime(dTimes)
     date = deadline(dDates)
     timeLeft = dt.combine(date, time) - dt.combine(startDate, startTime).replace(microsecond=0)
@@ -94,7 +93,7 @@ def printing():
 
 # send alert here
 def ask(task_title):
-    if dateTime == 13:
+    if dateTime == 11:
         key_task(task_title)
 
 
@@ -118,6 +117,22 @@ def key_task(task_title):
     done_yet(task_id, task_title)
 
 
+def task_done(task_id):
+    # delete from dict
+    tasks_dict.pop(task_id)
+    Data.delete_data(task_id)
+    print tasks_dict
+    # remove task from LLFeatures
+    # node = TaskLL.Node(data= task_id)
+    LLFeatures.linked_list.delete_node(task_id)
+    LLFeatures.linked_list.print_list()
+
+def task_not_done(task_id):
+    q = tasks_dict[task_id]["time left"]
+    hours = q.seconds / 3600
+    return q, hours
+
+
 # check if it's done
 def done_yet(task_id, task_title):
     if task_id != "":
@@ -125,14 +140,7 @@ def done_yet(task_id, task_title):
             isDone = raw_input("have you finished the task(yes/no)? ")
             if isDone == "yes":
                 print ("well done! you can now stop thinking about it")
-                # delete from dict
-                tasks_dict.pop(task_id)
-                Data.delete_data(task_id)
-                print tasks_dict
-                # remove task from LLFeatures
-                #node = TaskLL.Node(data= task_id)
-                LLFeatures.linked_list.delete_node(task_id)
-                LLFeatures.linked_list.print_list()
+                task_done(task_id)
                 break
             elif isDone == "no":
                 q = tasks_dict[task_id]["time left"]
@@ -147,6 +155,29 @@ def done_yet(task_id, task_title):
         print "This task is not in the list. Please add it to the list first"
         add = raw_input("Do you want to add " + task_title + " to the todo list? ")
         add_task(task_title, add)
+
+
+def adding_task(task_title, task_key, deadline, deadtime):
+    starting = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    title = task_title
+    time_zone = starting.astimezone(get_localzone())
+    startdate = time_zone.date()
+    starttime = time_zone.time().replace(microsecond=0)
+    print deadline, deadtime
+    timeLeft = time_left(deadline, deadtime)
+    recommend = Recommendations.give_recommend(dead(deadline, deadtime),
+                                               task_key, the_list)
+    tasks_dict.update({task_key: {"title": title,
+                                  "deadline": deadline,
+                                  "deadtime": deadtime,
+                                  "start date": startdate,
+                                  "start time": starttime,
+                                  "time left": timeLeft,
+                                  "Recommendation": recommend},
+                       })
+    Data.write_task(task_key)
+    # add to LLFeature here
+    LLFeatures.linked_list.append(task_key)
 
 
 def add_task(task_title, add):
@@ -164,39 +195,34 @@ def add_task(task_title, add):
                     add_task(task_title, "yes")
                     break
                 elif x == "1":
-                    changing_urgency(task_title, task_key)
+                    deadline = raw_input("When is the deadline (YYYY-MM-DD)? ")
+                    deadtime = raw_input("What time is the deadline (hh:mm:ss)? ")
+                    changing_urgency(task_title, task_key, deadline, deadtime)
                     break
                 else:
                     print "please enter either 1 or 2"
         else:
             # Add a new dictionary to tasks_dict
-            starting = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
-            title = task_title
-            deadline = raw_input("When is the deadline (YYYY-MM-DD)? ")
-            deadtime = raw_input("What time is the deadline (hh:mm:ss)? ")
-            time_zone = starting.astimezone(get_localzone())
-            startdate = time_zone.date()
-            starttime = time_zone.time().replace(microsecond=0)
-            timeLeft = time_left(deadline, deadtime)
-            recommend = Recommendations.give_recommend(dead(deadline, deadtime),
-                                                       task_key, the_list)
-            tasks_dict.update({task_key: {"title": title,
-                                        "deadline": deadline,
-                                        "deadtime": deadtime,
-                                        "start date": startdate,
-                                        "start time": starttime,
-                                        "time left": timeLeft,
-                                        "Recommendation": recommend},
-                               })
-            Data.write_task(task_key)
-            # add to LLFeature here
-            LLFeatures.linked_list.append(task_key)
+            adding_task(task_title, task_key)
             print LLFeatures.linked_list.print_list()
             printing()
     else:
         print "Okay! I won't add it to your list then."
         printing()
 
+
+def change_urg(level, new):
+    for key, value in tasks_dict.items():
+        # title = tasks_dict[key]["title"]
+        if key == level:
+            x = value
+            tasks_dict.pop(key)
+            Data.delete_data(key)
+            break
+    tasks_dict.update({new: x})
+    # Data.write_task(task)
+    # Change the task name in LLFeatures here
+    LLFeatures.redata_node(level, new)
 
 # changing the values in the dictionary
 def changing_urgency(task, level):
@@ -215,17 +241,7 @@ def changing_urgency(task, level):
 
     # changing the level
     else:
-        for key, value in tasks_dict.items():
-            #title = tasks_dict[key]["title"]
-            if key == level:
-                x = value
-                tasks_dict.pop(key)
-                Data.delete_data(key)
-                break
-        tasks_dict.update({new: x})
-        #Data.write_task(task)
-        # Change the task name in LLFeatures here
-        LLFeatures.redata_node(level, new)
+        change_urg(level, new)
         print LLFeatures.linked_list.print_list()
         add_task(task, "yes")
 
