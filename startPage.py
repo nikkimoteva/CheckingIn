@@ -29,10 +29,6 @@ class AddingTask(Screen):
     task_key = ObjectProperty(None)
     deadline = ObjectProperty(None)
     deadtime = ObjectProperty(None)
-    """title = task_title.text
-    key = "task" + task_key.text
-    line = deadline
-    time = deadtime"""
 
     def adding(self):
         NotificationAnnoyer.adding_task(self.task_title.text, "task" + self.task_key.text,
