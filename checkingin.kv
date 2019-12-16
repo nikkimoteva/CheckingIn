@@ -89,6 +89,7 @@
             font_size: (root.width**2 + root.height**2) / 13**4
             pos_hint: {"x":0.072, "top":0.9}
             size_hint: 0.35, 0.15
+            height: self.texture_size[1]
 
         TextInput:
             id: email
@@ -212,5 +213,77 @@
             font_size: 50
             text: "Enter"
             on_release:
+                root.manager.transition.direction = "right"
                 root.options()
+
+<AddingTask>:
+    name: "adding_task"
+
+    task_title: task_title
+    task_key: task_key
+    deadline: deadline
+    deadtime: deadtime
+
+    FloatLayout:
+
+        Label:
+            text:"please enter the name of the task: "
+            font_size: 35
+            pos_hint: {"x":0.3, "top":1}
+            size_hint: 0.35, 0.15
+
+        TextInput:
+            id: task_title
+            font_size: 35
+            multiline: True
+            pos_hint: {"x": 0.27 , "top":0.9}
+            size_hint: 0.4, 0.1
+
+        Label:
+            text:"please enter the urgency(number) of the task: "
+            font_size: 35
+            pos_hint: {"x":0.3, "top":0.83}
+            size_hint: 0.35, 0.15
+
+        TextInput:
+            id: task_key
+            font_size: 35
+            multiline: False
+            pos_hint: {"x": 0.42 , "top":0.73}
+            size_hint: 0.075, 0.1
+
+        Label:
+            text:"When is the deadline (YYYY-MM-DD)?"
+            font_size: 35
+            pos_hint: {"x":0.3, "top":0.67}
+            size_hint: 0.35, 0.15
+
+        TextInput:
+            id: deadline
+            font_size: 35
+            multiline: True
+            pos_hint: {"x": 0.27 , "top":0.57}
+            size_hint: 0.4, 0.1
+
+        Label:
+            text:"What time is the deadline (hh:mm:ss)?  "
+            font_size: 35
+            pos_hint: {"x":0.3, "top":0.5}
+            size_hint: 0.35, 0.15
+
+        TextInput:
+            id: deadtime
+            font_size: 35
+            multiline: False
+            pos_hint: {"x": 0.3 , "top":0.4}
+            size_hint: 0.4, 0.1
+
+        Button:
+            pos_hint:{"x":0.2,"y":0.05}
+            size_hint: 0.6, 0.2
+            font_size: 50
+            text: "Enter"
+            on_release:
                 root.manager.transition.direction = "left"
+                root.adding()
+                root.go_back()
